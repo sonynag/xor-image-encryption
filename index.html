@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>XOR Image Encryption</title>
+    <style>
+        body {
+            background-color: #f0f8ff;
+            font-family: 'Comic Sans MS', Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+        }
+
+        h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        form {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            display: inline-block;
+            margin-bottom: 30px;
+        }
+
+        label {
+            font-weight: bold;
+            color: #34495e;
+            display: block;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        input[type="file"],
+        input[type="number"] {
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            margin-bottom: 20px;
+            width: 80%;
+            font-size: 16px;
+        }
+
+        input[type="submit"] {
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #2ecc71;
+        }
+
+        .gif-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .gif-container img {
+            width: 60px;
+            height: 60px;
+            transition: transform 0.3s;
+        }
+
+        .gif-container img:hover {
+            transform: scale(1.2);
+        }
+
+        #celebration {
+            display: none;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>XOR Image Encryption Web App 🎉</h2>
+
+    <!-- Digit GIFs -->
+    <div class="gif-container" id="digitGifs">
+        <img src="https://media.giphy.com/media/3o6Zt481isNVuQI1l6/giphy.gif" alt="Digit 0">
+        <img src="https://media.giphy.com/media/l0HlBO7eyXzSZkJri/giphy.gif" alt="Digit 1">
+        <img src="https://media.giphy.com/media/26AHONQ79FdWZhAI0/giphy.gif" alt="Digit 2">
+    </div>
+
+    <form id="xorForm" action="/upload" method="post" enctype="multipart/form-data">
+
+        <label>Select Image:</label>
+        <input type="file" name="image" required>
+
+        <label>Enter XOR Key (0-255):</label>
+        <input type="number" name="key" min="0" max="255" required id="keyInput">
+
+        <input type="submit" value="Encrypt / Decrypt Image">
+
+    </form>
+
+    <!-- Celebration GIF -->
+    <div id="celebration">
+        <img src="https://media.giphy.com/media/111ebonMs90YLu/giphy.gif" width="150" alt="Celebration">
+        <p>🎉 Encryption Done! 🎉</p>
+    </div>
+
+    <script>
+        const keyInput = document.getElementById('keyInput');
+        const digitGifs = document.querySelectorAll('#digitGifs img');
+        const celebration = document.getElementById('celebration');
+        const form = document.getElementById('xorForm');
+
+        // Change GIFs based on key digit
+        keyInput.addEventListener('input', () => {
+            let value = keyInput.value;
+            for (let i = 0; i < digitGifs.length; i++) {
+                if (value[i] !== undefined) {
+                    // Change GIF based on digit (example: any simple effect)
+                    digitGifs[i].style.transform = `rotate(${value[i]*10}deg) scale(1.2)`;
+                } else {
+                    digitGifs[i].style.transform = 'rotate(0deg) scale(1)';
+                }
+            }
+        });
+
+        // Show celebration GIF on form submit
+        form.addEventListener('submit', (e) => { celebration.style.display = 'block';
+        });
+    </script>
+
+</body>
+</html>
+
